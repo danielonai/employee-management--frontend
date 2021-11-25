@@ -2,20 +2,17 @@ import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router"
 import { userService } from "../services/user.service"
 
+
 export const Employee = () => {
 
-
+    const [second, setSecond] = useState('00')
+    const [minute, setMinute] = useState('00')
+    const [hour, setHour] = useState('00')
+    const [isActive, setIsActive] = useState(false)
+    const [counter, setCounter] = useState(4857)
+    const [finalTime, setFinalTime] = useState(0)
     const [user, setUser] = useState(null)
-
-    // const [sec, setSec] = useState(0)
-    // const [min, setMin] = useState(0)
-    // const [hr, setHr] = useState(0)
-
-    const [clock, setclock] = useState({
-        sec: 58,
-        min: 0,
-        hr: 0
-    })
+    const [msg, setMsg] = useState(null)
 
 
     const [btnTxt, setbtnTxt] = useState(null)
@@ -32,37 +29,76 @@ export const Employee = () => {
         }
     }, [])
 
+    // the function responsible for the timer logic
+    useEffect(() => {
+        let intervalId
+
+        if (isActive) {
+            intervalId = setInterval(() => {
+                const secondCounter = counter % 60
+                const minuteCounter = Math.floor(counter / 60) % 60
+                const hourCounter = Math.floor(counter / 3600)
+
+                const computedSecond = String(secondCounter).length === 1 ? `0${secondCounter}` : secondCounter
+                const computedMinute = String(minuteCounter).length === 1 ? `0${minuteCounter}` : minuteCounter
+                const computedHour = String(hourCounter).length === 1 ? `0${hourCounter}` : hourCounter
+
+                setSecond(computedSecond)
+                setMinute(computedMinute)
+                setHour(computedHour)
+                setFinalTime(hourCounter + +(minuteCounter / 60).toFixed(2))
+
+                setCounter(counter => counter + 1)
+            }, 1000)
+        }
+        return () => clearInterval(intervalId)
+    }, [isActive, counter])
+
     const loadUser = () => {
         const user = userService.getLoggedinUser()
         if (!user) navigate('/')
         setUser(user)
     }
 
-    const onBtnClick = () => {
-        if (!intervalId.current) {
-            setbtnTxt('Pause Work')
+    const onClockBtnClick = async () => {
+        setIsActive(!isActive)
+        if (isActive) {
+            setbtnTxt('Pause work')
             setUser({ ...user, isWorking: true })
-            intervalId.current = setInterval(() => {
-                if (clock.sec === 59) {
-                    if (clock.min === 59) setclock({ ...clock,sec: 0, min: 0, hr: clock.hr++ })
-                    else setclock({ ...clock, sec: 0, min: clock.min++ })
-                }
-                else setclock({ ...clock, sec: clock.sec++ })
-            }, 1000);
+            await userService.update(user)
         } else {
-            setbtnTxt('Start Work')
-            setUser({ ...user, isWorking: false })
-            clearInterval(intervalId.current)
-            intervalId.current = null
+            setbtnTxt('Start work')
+            setUser({ ...user, isWorking: true })
+            await userService.update(user)
         }
+    }
+
+    const onSessionEnd = async () => {
+        const monthlyHours = user.monthlyHours + finalTime
+        console.log('month hours:',monthlyHours);
+        setUser({ ...user, monthlyHours, totalSessions: user.totalSessions + 1 })
+        await userService.update(user)
+        await userService.logout()
+        setMsg('Session saved, goodbye!')
+        setTimeout(() => {
+            setMsg(null)
+            navigate('/')
+        }, 1500);
     }
 
     return (
         <section className="employee-main-container flex column align-center">
             <div className="employee-header">Hello {user?.fullName}!</div>
-            <div className="clock-container">{clock.hr < 10 ? '0' + clock.hr : clock.hr}:{clock.min < 10 ? '0' + clock.min : clock.min}:{clock.sec < 10 ? '0' + clock.sec : clock.sec}</div>
-            <button onClick={onBtnClick} className="start-btn">{btnTxt}</button>
-            <button className="end-btn">End session and sign out</button>
+            <div className="time">
+                <span className="hour">{hour}</span>
+                <span>:</span>
+                <span className="minute">{minute}</span>
+                <span>:</span>
+                <span className="second">{second}</span>
+            </div>
+            <button onClick={onClockBtnClick} className="start-btn">{btnTxt}</button>
+            <button onClick={onSessionEnd} className="end-btn">End session and sign out</button>
+            {msg && <div>{msg}</div>}
             <table className="monthly-table">
                 <thead className="outline">
                     <tr>
@@ -72,8 +108,8 @@ export const Employee = () => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td className="text-align outline">15</td>
-                        <td className="text-align outline">3</td>
+                        <td className="text-align outline">{user?.monthlyHours}</td>
+                        <td className="text-align outline">{user?.totalSessions}</td>
                     </tr>
                 </tbody>
             </table>
