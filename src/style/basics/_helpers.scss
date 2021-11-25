@@ -168,30 +168,6 @@
 .index-top {
   z-index: 5;
 }
-.light {
-  font-family: airbnb-cereal-book;
-}
-.medium {
-  font-family: airbnb-cereal-meduim;
-}
-.bold {
-  font-family: airbnb-cereal-bold;
-}
-.clr1 {
-  color: #717171;
-}
-.clr2 {
-  color: #222222;
-}
-.clr3 {
-  color: rgb(255, 56, 92);
-}
-.clr4 {
-  color: white;
-}
-.clr5 {
-  color: black;
-}
 
 // Display helpers
 
@@ -199,34 +175,11 @@
   display: none;
 }
 
-// Media helpers
-
-.square-ratio {
-  @include aspect-ratio(1, 1);
-}
-.video-ratio {
-  @include aspect-ratio(16, 9);
-}
-.portrait-ratio {
-  @include aspect-ratio(9, 16);
-}
-.hero-ratio {
-  @include aspect-ratio(16, 9);
-}
 
 // other
 .pointer {
   cursor: pointer;
 }
-.heart-svg {
-  display: block;
-  fill: none;
-  height: 16px;
-  width: 16px;
-  stroke: currentcolor;
-  stroke-width: 2;
-}
-
 .seperation-line {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -240,6 +193,10 @@
   margin-right: 5px;
   border-right: 1px solid rgba(131, 126, 126, 0.5);
   height: 35px;
+}
+
+.outline {
+  outline: 1px solid black;
 }
 
 .mrb2 {

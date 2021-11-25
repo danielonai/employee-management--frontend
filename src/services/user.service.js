@@ -10,11 +10,18 @@ export const userService = {
     getById,
     remove,
     update,
-    getDemoUser
 };
 
-window.userService = userService;
+// window.userService = userService;
 
+async function login(userCred) {
+    try {
+        const user = await httpService.post('auth/login', userCred)
+        if (user) return _saveLocalUser(user)
+    } catch (err) {
+        throw err
+    }
+}
 function getUsers() {
     return httpService.get(`user`)
 }
@@ -34,14 +41,6 @@ async function update(user) {
     return user;
 }
 
-async function login(userCred) {
-    try {
-        const user = await httpService.post('auth/login', userCred)
-        if (user) return _saveLocalUser(user)
-    } catch (err) {
-        throw err
-    }
-}
 async function signup(userCred) {
     try {
         const user = await httpService.post('auth/signup', userCred)
@@ -66,6 +65,3 @@ function getLoggedinUser() {
     return user
 }
 
-function getDemoUser() {
-    return { username: 'Demouser', password: 'Demouser' }
-}

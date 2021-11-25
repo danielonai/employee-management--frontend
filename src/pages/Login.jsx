@@ -1,17 +1,25 @@
 import { TextField } from "@material-ui/core"
 import { useForm } from "../hooks/useForm"
 import { useNavigate } from 'react-router-dom'
+import { userService } from "../services/user.service"
+import { useState } from "react"
 
 
 
 export const Login = () => {
     const [credentials, handleChange, setCredentials] = useForm({ phoneNumber: null, password: null })
+    const [msg, setMsg] = useState(null)
     const navigate = useNavigate()
 
-    const check = (ev) => {
+    const onLogin = async (ev) => {
         ev.preventDefault()
-       
+      const user = await userService.login(credentials)
+      if (user) {
+          user.isEmployer ? navigate('/employer') :  navigate('/employee')
+      }
+      else setMsg('Incorrect phone number / password')
     }
+
     return (
         <section>
             <form className="login-container">
@@ -35,7 +43,8 @@ export const Login = () => {
                             onChange={handleChange}
                         />
                     </div>
-                    <button onClick={check} className="sign-in-btn fs16 fh20">Sign-in</button>
+                    {msg && <div>{msg}</div>}
+                    <button onClick={onLogin} className="sign-in-btn fs16 fh20">Sign-in</button>
                 </div>
             </form>
         </section>
