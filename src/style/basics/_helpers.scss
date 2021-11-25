@@ -1,0 +1,269 @@
+// Font Sizes
+.fs10 {
+  font-size: rem(10px);
+}
+
+.fs12 {
+  font-size: rem(12px);
+}
+.fs13 {
+  font-size: rem(13px);
+}
+.fs14 {
+  font-size: rem(14px);
+}
+.fs16 {
+  font-size: rem(16px);
+}
+.fs18 {
+  font-size: rem(18px);
+}
+.fs20 {
+  font-size: rem(20px);
+}
+.fs22 {
+  font-size: rem(22px);
+}
+.fs24 {
+  font-size: rem(24px);
+}
+.fs26 {
+  font-size: rem(26px);
+}
+.fs28 {
+  font-size: rem(28px);
+}
+.fs30 {
+  font-size: rem(30px);
+}
+.fs32 {
+  font-size: rem(32px);
+}
+.fh18 {
+  line-height: rem(18px);
+}
+.fh20 {
+  line-height: rem(20px);
+}
+.fh23 {
+  line-height: rem(23px);
+}
+.fh26 {
+  line-height: rem(26px);
+}
+.fh32 {
+  line-height: rem(32px);
+}
+.fh36 {
+  line-height: rem(36px);
+}
+.fh52 {
+  line-height: rem(52px);
+}
+
+.text-align {
+  text-align: center;
+}
+
+.fw-unset {
+  font-weight: unset;
+}
+.airbnb-medium {
+  font-family: airbnb-cereal-Medium;
+}
+.airbnb-book {
+  font-family: airbnb-cereal-book;
+}
+.airbnb-bold {
+  font-family: airbnb-cereal-bold;
+}
+// flex helpers
+
+.flex {
+  display: flex;
+
+  > *.full {
+    flex: 1;
+  }
+  &.column {
+    flex-direction: column;
+  }
+  &.justify-center {
+    justify-content: center;
+  }
+  &.space-between {
+    justify-content: space-between;
+  }
+  &.align-center {
+    align-items: center;
+  }
+}
+.wrap {
+  flex-wrap: wrap;
+}
+.gap5 {
+  gap: 5px;
+}
+.gap10 {
+  gap: 10px;
+}
+.gap15 {
+  gap: 15px;
+}
+.gap20 {
+  gap: 20px;
+}
+.gap25 {
+  gap: 25px;
+}
+.gap30 {
+  gap: 30px;
+}
+.gap100 {
+  gap: 100px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+.border-none {
+  border: none;
+}
+
+.round-edge {
+  border-radius: rem(10px);
+}
+.justify-end {
+  justify-content: flex-end;
+}
+
+.wide {
+  width: 100%;
+}
+.high {
+  height: 100%;
+}
+.fixed {
+  position: fixed;
+}
+.sticky-color {
+  position: sticky;
+  background-color: white;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.border-round {
+  border-radius: 2em;
+}
+.border-circle {
+  border-radius: 50%;
+}
+.white {
+  background-color: white;
+}
+.index-top {
+  z-index: 5;
+}
+.light {
+  font-family: airbnb-cereal-book;
+}
+.medium {
+  font-family: airbnb-cereal-meduim;
+}
+.bold {
+  font-family: airbnb-cereal-bold;
+}
+.clr1 {
+  color: #717171;
+}
+.clr2 {
+  color: #222222;
+}
+.clr3 {
+  color: rgb(255, 56, 92);
+}
+.clr4 {
+  color: white;
+}
+.clr5 {
+  color: black;
+}
+
+// Display helpers
+
+.none {
+  display: none;
+}
+
+// Media helpers
+
+.square-ratio {
+  @include aspect-ratio(1, 1);
+}
+.video-ratio {
+  @include aspect-ratio(16, 9);
+}
+.portrait-ratio {
+  @include aspect-ratio(9, 16);
+}
+.hero-ratio {
+  @include aspect-ratio(16, 9);
+}
+
+// other
+.pointer {
+  cursor: pointer;
+}
+.heart-svg {
+  display: block;
+  fill: none;
+  height: 16px;
+  width: 16px;
+  stroke: currentcolor;
+  stroke-width: 2;
+}
+
+.seperation-line {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top: 1px solid rgba(131, 126, 126, 0.5);
+  width: 100%;
+}
+
+.seperation-line-vertical {
+  align-self: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-right: 1px solid rgba(131, 126, 126, 0.5);
+  height: 35px;
+}
+
+.mrb2 {
+  margin-bottom: 2px;
+}
+.mrt10 {
+  margin-top: 10px;
+}
+.mrt20 {
+  margin-top: 20px;
+}
+.margin0 {
+  margin: 0px !important;
+}
+.margin25 {
+  margin: 25px 0 !important;
+}
+.margin-top20 {
+  margin-top: 20px;
+}
+.margin40 {
+  margin: 40px 0px;
+}
+.hover-grey:hover {
+  background-color: $clr6;
+  transition: 0.4s;
+}
