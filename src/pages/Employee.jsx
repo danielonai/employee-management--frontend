@@ -9,23 +9,26 @@ export const Employee = () => {
     const [minute, setMinute] = useState('00')
     const [hour, setHour] = useState('00')
     const [isActive, setIsActive] = useState(false)
-    const [counter, setCounter] = useState(4857)
+    const [counter, setCounter] = useState(0)
     const [finalTime, setFinalTime] = useState(0)
     const [user, setUser] = useState(null)
     const [msg, setMsg] = useState(null)
+    const [btnTxt, setbtnTxt] = useState('Start Working!')
 
 
-    const [btnTxt, setbtnTxt] = useState(null)
 
     const intervalId = useRef()
     const navigate = useNavigate()
 
     //componetDidMount
     useEffect(() => {
-        setbtnTxt('Start Working!')
         loadUser()
-        return () => {
+        return async () => {
             clearInterval(intervalId.current)
+            if (user) {
+                setUser({ ...user, isWorking: false })
+                await userService.update(user)
+            }
         }
     }, [])
 
@@ -35,6 +38,7 @@ export const Employee = () => {
 
         if (isActive) {
             intervalId = setInterval(() => {
+                setCounter(counter => counter + 1)
                 const secondCounter = counter % 60
                 const minuteCounter = Math.floor(counter / 60) % 60
                 const hourCounter = Math.floor(counter / 3600)
@@ -48,7 +52,6 @@ export const Employee = () => {
                 setHour(computedHour)
                 setFinalTime(hourCounter + +(minuteCounter / 60).toFixed(2))
 
-                setCounter(counter => counter + 1)
             }, 1000)
         }
         return () => clearInterval(intervalId)
@@ -75,7 +78,7 @@ export const Employee = () => {
 
     const onSessionEnd = async () => {
         const monthlyHours = user.monthlyHours + finalTime
-        console.log('month hours:',monthlyHours);
+        console.log('month hours:', monthlyHours);
         setUser({ ...user, monthlyHours, totalSessions: user.totalSessions + 1 })
         await userService.update(user)
         await userService.logout()

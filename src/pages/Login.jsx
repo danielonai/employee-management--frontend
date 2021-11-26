@@ -23,7 +23,7 @@ export const Login = () => {
     return (
         <section>
             <form className="login-container">
-                <p className="login-header fs20 fh22">Please log in to continue</p>
+                <h1 className="login-header fs20 fh22">Please log in to continue</h1>
                 <div className="seperation-line"></div>
                 <div className="login-main-container flex column align-center">
                     <div className="login-input-continer flex column gap10">

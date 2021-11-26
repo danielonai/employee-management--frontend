@@ -4,7 +4,7 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser';
 export const userService = {
     login,
     logout,
-    signup,
+    addUser,
     getLoggedinUser,
     getUsers,
     getById,
@@ -41,10 +41,9 @@ async function update(user) {
     return user;
 }
 
-async function signup(userCred) {
+async function addUser(userCred) {
     try {
-        const user = await httpService.post('auth/signup', userCred)
-        return _saveLocalUser(user);
+        await httpService.post('auth/signup', userCred)
     } catch (err) {
         throw err
     }
