@@ -79,6 +79,7 @@ export const Employee = () => {
     const onClockBtnClick = async () => {
         setIsActive(!isActive)
         if (isActive) {
+            debugger
             setbtnTxt('Start work')
             setUser({ ...user, isWorking: false })
         } else {
@@ -98,11 +99,12 @@ export const Employee = () => {
             }
             user.sessions.push(session)
             const sessions = user.sessions
-            setUser({ ...user, sessions })
-            await userService.update(user)
+            setUser({ ...user, sessions, isWorking: false })
             setMsg('Session saved, goodbye!')
         }
         setTimeout(async () => {
+            setUser({ ...user, isWorking: false })
+            await userService.update(user)
             setMsg(null)
             await userService.logout()
             navigate('/')
@@ -133,7 +135,7 @@ export const Employee = () => {
 
     return (
         <section className="employee-main-container flex column align-center">
-            <h1 className="employee-header  fs32 fh36">Hello {user?.fullName}!</h1>
+            <h1 className="employee-header  fs26 fh30">Hello {user?.fullName}!</h1>
             <div className="time fs30 fh36">
                 <span className="hour">{hour}</span>
                 <span>:</span>

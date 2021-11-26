@@ -51,7 +51,7 @@ export const Employer = () => {
 
     return (
         <section className="employer-page-container flex column align-center">
-            <h1 className="header">Hello {user?.fullName}!</h1>
+            <h1 className="employer-header fs26 fh30">Hello {user?.fullName}!</h1>
             <table className="employees-table">
                 <thead className="outline">
                     <tr>
@@ -65,7 +65,7 @@ export const Employer = () => {
                     {employees.map(employee => <EmployeePreview employee={employee} key={employee.phoneNumber} />)}
                 </tbody>
             </table>
-            <button className=" fs16 fh20" onClick={() => setIsAddingEmployee(!isAddingEmployee)}>Add New Employee</button>
+            <button className="add-btn fs16 fh20" onClick={() => setIsAddingEmployee(!isAddingEmployee)}>Add New Employee</button>
             {isAddingEmployee && <div>
                 <form className="add-employee-form flex column align-center">
                     <h1 className="form-header">Add A New Employee</h1>

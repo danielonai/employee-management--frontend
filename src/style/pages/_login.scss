@@ -12,6 +12,11 @@
 
     .sign-in-btn {
         margin-top: 20px;
+        padding: 10px;
+        border: none;
+        background-color: #c0c0c070;
+        border-radius: 5px;
+        box-shadow: 0px 0px 3px 1px black;
     }
 
     @include for-mobile-layout {

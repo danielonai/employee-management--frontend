@@ -23,10 +23,6 @@ function getUsers() {
     return httpService.get(`user`)
 }
 
-function remove(userId) {
-    return httpService.delete(`user/${userId}`)
-}
-
 async function update(user) {
     await httpService.put(`user/${user._id}`, user)
     if (getLoggedinUser()._id === user._id) _saveLocalUser(user);
