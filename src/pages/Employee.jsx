@@ -1,6 +1,9 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import { userService } from "../services/user.service"
+
+
+
 
 
 export const Employee = () => {
@@ -8,6 +11,7 @@ export const Employee = () => {
     const [second, setSecond] = useState('00')
     const [minute, setMinute] = useState('00')
     const [hour, setHour] = useState('00')
+    const [day, setDay] = useState(new Date().getDate())
     const [isActive, setIsActive] = useState(false)
     const [counter, setCounter] = useState(0)
     const [finalTime, setFinalTime] = useState(0)
@@ -16,20 +20,11 @@ export const Employee = () => {
     const [btnTxt, setbtnTxt] = useState('Start Working!')
 
 
-
-    const intervalId = useRef()
     const navigate = useNavigate()
 
     //componetDidMount
     useEffect(() => {
         loadUser()
-        return async () => {
-            clearInterval(intervalId.current)
-            if (user) {
-                setUser({ ...user, isWorking: false })
-                await userService.update(user)
-            }
-        }
     }, [])
 
     // the function responsible for the timer logic
@@ -51,6 +46,7 @@ export const Employee = () => {
                 setMinute(computedMinute)
                 setHour(computedHour)
                 setFinalTime(hourCounter + +(minuteCounter / 60).toFixed(2))
+                checkDate()
 
             }, 1000)
         }
@@ -63,44 +59,90 @@ export const Employee = () => {
         setUser(user)
     }
 
-    const onClockBtnClick = async () => {
-        setIsActive(!isActive)
-        if (isActive) {
-            setbtnTxt('Pause work')
-            setUser({ ...user, isWorking: true })
+    // resets the clock and submits the session if it flowed to the next day
+    const checkDate = async () => {
+        const currDay = new Date().getDate()
+        if (currDay !== day) {
+            const session = {
+                date: new Date().toLocaleString(),
+                duration: finalTime
+            }
+            const sessions = user.sessions.push(session)
+            setUser({ ...user, sessions })
             await userService.update(user)
-        } else {
-            setbtnTxt('Start work')
-            setUser({ ...user, isWorking: true })
-            await userService.update(user)
+            resetClock()
+            setDay(currDay)
         }
     }
 
-    const onSessionEnd = async () => {
-        const monthlyHours = user.monthlyHours + finalTime
-        console.log('month hours:', monthlyHours);
-        setUser({ ...user, monthlyHours, totalSessions: user.totalSessions + 1 })
+
+    const onClockBtnClick = async () => {
+        setIsActive(!isActive)
+        if (isActive) {
+            setbtnTxt('Start work')
+            setUser({ ...user, isWorking: false })
+        } else {
+            setbtnTxt('Pause work')
+            setUser({ ...user, isWorking: true })
+        }
         await userService.update(user)
-        await userService.logout()
-        setMsg('Session saved, goodbye!')
-        setTimeout(() => {
+    }
+
+
+    // adds a session to the user if he had a work session and commiting logout
+    const onSessionEnd = async () => {
+        if (counter > 120) {
+            const session = {
+                date: new Date().toLocaleString(),
+                duration: finalTime
+            }
+            user.sessions.push(session)
+            const sessions = user.sessions
+            setUser({ ...user, sessions })
+            await userService.update(user)
+            setMsg('Session saved, goodbye!')
+        }
+        setTimeout(async () => {
             setMsg(null)
+            await userService.logout()
             navigate('/')
-        }, 1500);
+        }, 1000);
+    }
+
+
+    const resetClock = () => {
+        setCounter(0)
+        setSecond('00')
+        setMinute('00')
+        setHour('00')
+    }
+
+    const getMonthlyHours = () => {
+        if (!user) return
+        let hours = 0
+        user?.sessions.forEach(session => {
+            hours += session.duration
+        })
+        return hours
+    }
+
+    const getMonthlysessions = () => {
+        const monthlySessions = user?.sessions.filter(session => session.date.slice(3, 5) === new Date().toLocaleString().slice(3, 5))
+        return monthlySessions?.length || 0
     }
 
     return (
         <section className="employee-main-container flex column align-center">
-            <div className="employee-header">Hello {user?.fullName}!</div>
-            <div className="time">
+            <h1 className="employee-header  fs32 fh36">Hello {user?.fullName}!</h1>
+            <div className="time fs30 fh36">
                 <span className="hour">{hour}</span>
                 <span>:</span>
                 <span className="minute">{minute}</span>
                 <span>:</span>
                 <span className="second">{second}</span>
             </div>
-            <button onClick={onClockBtnClick} className="start-btn">{btnTxt}</button>
-            <button onClick={onSessionEnd} className="end-btn">End session and sign out</button>
+            <button onClick={onClockBtnClick} className="start-btn fs20 fh22">{btnTxt}</button>
+            <button onClick={onSessionEnd} className="end-btn fs20 fh22">End session and sign out</button>
             {msg && <div>{msg}</div>}
             <table className="monthly-table">
                 <thead className="outline">
@@ -111,8 +153,8 @@ export const Employee = () => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td className="text-align outline">{user?.monthlyHours}</td>
-                        <td className="text-align outline">{user?.totalSessions}</td>
+                        <td className="text-align outline">{getMonthlyHours()}</td>
+                        <td className="text-align outline">{getMonthlysessions()}</td>
                     </tr>
                 </tbody>
             </table>

@@ -7,12 +7,9 @@ export const userService = {
     addUser,
     getLoggedinUser,
     getUsers,
-    getById,
-    remove,
     update,
 };
 
-// window.userService = userService;
 
 async function login(userCred) {
     try {
@@ -24,11 +21,6 @@ async function login(userCred) {
 }
 function getUsers() {
     return httpService.get(`user`)
-}
-
-async function getById(userId) {
-    const user = await httpService.get(`user/${userId}`)
-    return user;
 }
 
 function remove(userId) {

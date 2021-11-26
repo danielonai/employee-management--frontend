@@ -2,10 +2,19 @@
     margin-top: 50px;
     gap: 30px;
 
+    button {
+        padding: 10px;
+        border: none;
+    background-color: $clr2;
+        border-radius: 5px;
+        box-shadow: 0px 0px 3px 1px black;
+    }
     .monthly-table {
-        background-color: $clr4;
+    background-color: $clr2;
         outline: 1px solid black;
-
-       
+        th,
+        td {
+            padding: 10px;
+        }
     }
 }

@@ -5,12 +5,14 @@ import { EmployeePreview } from "../cmps/Employee-Preview"
 import { useForm } from "../hooks/useForm"
 import { userService } from "../services/user.service"
 
+
+
 export const Employer = () => {
 
     const [user, setUser] = useState(null)
     const [employees, setemployees] = useState([])
     const [isAddingEmployee, setIsAddingEmployee] = useState(false)
-    const [credentials, handleChange, setCredentials] = useForm({ phoneNumber: null, password: null, fullName: null })
+    const [credentials, handleChange] = useForm({ phoneNumber: null, password: null, fullName: null })
     const [msg, setMsg] = useState(null)
 
 
@@ -63,10 +65,9 @@ export const Employer = () => {
                     {employees.map(employee => <EmployeePreview employee={employee} key={employee.phoneNumber} />)}
                 </tbody>
             </table>
-            <button onClick={() => setIsAddingEmployee(!isAddingEmployee)}>Add New Employee</button>
-            <button onClick={onLogout} className="logout-btn">Logout</button>
+            <button className=" fs16 fh20" onClick={() => setIsAddingEmployee(!isAddingEmployee)}>Add New Employee</button>
             {isAddingEmployee && <div>
-                <form className="add-employee-form">
+                <form className="add-employee-form flex column align-center">
                     <h1 className="form-header">Add A New Employee</h1>
                     <div className="seperation-line"></div>
                     <div className="inputs-container flex column gap10">
@@ -97,6 +98,7 @@ export const Employer = () => {
                     <button onClick={onAddEmployee} className="sign-in-btn fs16 fh20">Add Employee</button>
                 </form>
             </div>}
+            <button onClick={onLogout} className="logout-btn  fs16 fh20">Logout</button>
         </section>
     )
 }

@@ -1,16 +1,43 @@
 .employer-page-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: calc(100vh - 160px);
 
+   h1 {
+       margin-top: 15px;
+       margin-bottom: 15px;
+   }
 
-    .working {
-        color: green;
+    .employees-table {
+        background-color: $clr2;
+        .working {
+            color: green;
+        }
+
+        .not-working {
+            color: red;
+        }
+
+        td, th {
+            text-align: center;
+            padding: 20px;
+        }
     }
 
-    .not-working {
-        color: red;
+    .add-container {
+        justify-self: flex-end;
     }
 
-    td {
-        text-align: center;
-        padding:20px;
+
+    button {
+        padding: 10px;
+        border: none;
+        background-color: $clr2;
+        border-radius: 5px;
+        box-shadow: 0px 0px 3px 1px black;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
+
+  
 }

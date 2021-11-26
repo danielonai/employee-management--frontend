@@ -1,5 +1,5 @@
 .login-container {
-    margin: 50px auto ;
+    margin: 50px auto;
     padding: 20px;
     width: 400px;
     height: 290px;
@@ -12,5 +12,9 @@
 
     .sign-in-btn {
         margin-top: 20px;
+    }
+
+    @include for-mobile-layout {
+        width: 100%;
     }
 }

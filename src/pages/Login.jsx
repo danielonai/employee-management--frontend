@@ -2,22 +2,26 @@ import { TextField } from "@material-ui/core"
 import { useForm } from "../hooks/useForm"
 import { useNavigate } from 'react-router-dom'
 import { userService } from "../services/user.service"
-import { useState } from "react"
+import {  useState } from "react"
 
 
 
 export const Login = () => {
-    const [credentials, handleChange, setCredentials] = useForm({ phoneNumber: null, password: null })
+    const [credentials, handleChange] = useForm({ phoneNumber: null, password: null })
     const [msg, setMsg] = useState(null)
     const navigate = useNavigate()
 
+
     const onLogin = async (ev) => {
         ev.preventDefault()
-      const user = await userService.login(credentials)
-      if (user) {
-          user.isEmployer ? navigate('/employer') :  navigate('/employee')
-      }
-      else setMsg('Incorrect phone number / password')
+        try {
+            const user = await userService.login(credentials)
+            user.isEmployer ? navigate('/employer') : navigate('/employee')
+        }
+        catch (err) {
+            setMsg('Incorrect phone number / password')
+            console.log('err', err);
+        }
     }
 
     return (
