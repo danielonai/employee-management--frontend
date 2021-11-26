@@ -1,10 +1,8 @@
-# Getting Started with Create React App
+# Employee Managemnet App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
-
-In the project directory, you can run:
+An app that allows managing staff working hours and shows a summery of those details for tha employer.
 
 ### `npm start`
 
