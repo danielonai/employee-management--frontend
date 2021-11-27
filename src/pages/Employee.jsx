@@ -79,7 +79,6 @@ export const Employee = () => {
     const onClockBtnClick = async () => {
         setIsActive(!isActive)
         if (isActive) {
-            debugger
             setbtnTxt('Start work')
             setUser({ ...user, isWorking: false })
         } else {
