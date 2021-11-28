@@ -25,6 +25,9 @@ export const Employee = () => {
     //componetDidMount
     useEffect(() => {
         loadUser()
+        return () => {
+
+        }
     }, [])
 
     // the function responsible for the timer logic
@@ -78,14 +81,17 @@ export const Employee = () => {
 
     const onClockBtnClick = async () => {
         setIsActive(!isActive)
+        let updatedUser
         if (isActive) {
             setbtnTxt('Start work')
-            setUser({ ...user, isWorking: false })
+            updatedUser = { ...user, isWorking: false }
+            setUser(updatedUser)
         } else {
             setbtnTxt('Pause work')
-            setUser({ ...user, isWorking: true })
+            updatedUser = { ...user, isWorking: true }
+            setUser(updatedUser)
         }
-        await userService.update(user)
+        await userService.update(updatedUser)
     }
 
 
@@ -102,8 +108,10 @@ export const Employee = () => {
             setMsg('Session saved, goodbye!')
         }
         setTimeout(async () => {
-            setUser({ ...user, isWorking: false })
-            await userService.update(user)
+
+            const updatedUser = { ...user, isWorking: false }
+            setUser(updatedUser)
+            await userService.update(updatedUser)
             setMsg(null)
             await userService.logout()
             navigate('/')
