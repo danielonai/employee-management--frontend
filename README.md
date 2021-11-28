@@ -7,13 +7,13 @@
 
 ***Things you can do in the app***
 
-- **As an employee**
+ **As an employee**
 
 - start a clock to keep track pf your working hours, with an option to pause and reactive for breaks.
 
 - Watch a summary of your montly shifts and hours.
 
-- **As an employer**
+ **As an employer**
 
 - Watch a summary of the workers montly hours and total shifts.
 
